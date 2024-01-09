@@ -44,8 +44,27 @@ class AssignCategory
         $posts = get_posts(array('post_type' => 'post', 'posts_per_page' => -1));
 
         if (empty($posts)) {
-            WP_CLI::success('No posts found to assign categories.');
+            \WP_CLI::success('No posts found to assign categories.');
             return;
         }
+
+        // Assign categories to posts.
+        foreach ($posts as $post) {
+            $categories = wp_get_post_categories($post->ID, array('fields' => 'slugs'));
+
+            if (!in_array('pmc', $categories, true)) {
+                // Assign 'pmc' category.
+                wp_set_post_categories($post->ID, array($parent_category['term_id']), true);
+                \WP_CLI::success('Assigned "pmc" category to post ' . $post->ID);
+            }
+
+            if (!in_array('rollingstone', $categories, true)) {
+                // Assign 'rollingstone' category under 'pmc'.
+                wp_set_post_categories($post->ID, array($child_category['term_id']), true);
+                \WP_CLI::success('Assigned "rollingstone" category under "pmc" to post ' . $post->ID);
+            }
+        }
+
+        WP_CLI::success('Categories assigned to all posts.');
     }
 }
