@@ -21,12 +21,12 @@
  */
 
 define( 'PMC_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+require_once PMC_PLUGIN_PATH . 'inc/helpers/autoloader.php';
 
-require_once PMC_PLUGIN_PATH . '/inc/helpers/autoloader.php';
+use PMC_Plugin\Inc\Classes\Class_Plugin\Plugin;
 
 // Init plugin.
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
-	PMC_Plugin\Inc\Classes\Class_Plugin\Plugin::get_instance();
-
+	Plugin::get_instance();
 }
