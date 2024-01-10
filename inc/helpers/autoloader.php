@@ -31,7 +31,7 @@ function custom_autoload( $class_name ) {
 	array_shift( $path_parts );
 	$class_path = implode( '/', $path_parts );
 	// Set the base path to the current directory.
-	$base_dir = dirname( __DIR__ ) . '/';
+	$base_dir = PMC_PLUGIN_PATH . '/';
 	// Create the file path by appending the class name with the .php extension.
 	$file = $base_dir . $class_path . '.php';
 	// Check if the file exists and require it if it does.
@@ -39,4 +39,3 @@ function custom_autoload( $class_name ) {
 		require_once $file;
 	}
 }
-
