@@ -27,6 +27,5 @@ use PMC_Plugin\Inc\Classes\Class_Plugin\Plugin;
 
 // Init plugin.
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-
 	Plugin::get_instance();
 }

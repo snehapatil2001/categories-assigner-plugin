@@ -14,7 +14,7 @@ Categories Assigner is a WordPress plugin that allows you to assign categories t
 
 ## WP-CLI command
 
-- **wp assign-category**
+- **wp assign-category update_post**
 
 ## Installation
 
