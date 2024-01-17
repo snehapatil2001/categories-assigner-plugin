@@ -7,8 +7,6 @@ namespace PMC_Plugin\Inc\Classes\Class_Plugin;
  */
 class Plugin {
 
-
-
 	/**
 	 * Instance of class.
 	 *
@@ -54,30 +52,14 @@ class Plugin {
 		// Get post content.
 		$post_content = get_post_field( 'post_content', $post_id );
 
+		$post_content = do_shortcode( $post_content );
+
 		// Count images in post content.
 		preg_match_all( '/<img[^>]+>/', $post_content, $img_matches );
 		$img_count = count( $img_matches[0] );
 
-		$image_count_shortcode = 0;
-		// If post content has gallery shortcode.
-		if ( has_shortcode( $post_content, 'gallery' ) ) {
-			// Fetching all the shortcodes in the post content.
-			if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post_content, $matches, PREG_SET_ORDER ) ) {
-				foreach ( $matches as $shortcode ) {
-					if ( 'gallery' === $shortcode[2] ) {
-						$gallery = do_shortcode_tag( $shortcode );
-						// Fetching src from all the images in the gallery shorcode.
-						preg_match_all( '#src=([\'"])(.+?)\1#is', $gallery, $src, PREG_SET_ORDER );
-						if ( ! empty( $src ) ) {
-							$image_count_shortcode += count( $src );
-						}
-					}
-				}
-			}
-		}
-
 		// Total image count.
-		$total_image_count = $featured_image_count + $img_count + $image_count_shortcode;
+		$total_image_count = $featured_image_count + $img_count;
 
 		return $total_image_count;
 	}
