@@ -46,7 +46,7 @@ if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 
 				// 'pmc' category doesn't exist, create it.
 				$parent_category = wp_insert_term( 'pmc', 'category' );
-				\WP_CLI::success( 'Parent category "pmc" created.' );
+				\WP_CLI::line( 'Parent category "pmc" created.' );
 			}
 
 			// Check if child category exists, and create it if not.
@@ -57,7 +57,7 @@ if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 
 				// 'rollingstone' category doesn't exist, create it under the 'pmc' parent.
 				$child_category = wp_insert_term( 'rollingstone', 'category', array( 'parent' => $parent_category['term_id'] ) );
-				\WP_CLI::success( 'Child category "rollingstone" created under "pmc".' );
+				\WP_CLI::line( 'Child category "rollingstone" created under "pmc".' );
 			}
 
 			do {
