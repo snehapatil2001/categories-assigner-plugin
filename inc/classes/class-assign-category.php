@@ -11,6 +11,7 @@ if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 	 */
 	class Assign_Category extends \WPCOM_VIP_CLI_Command {
 
+
 		/**
 		 * Assign category to all posts.
 		 *
@@ -24,7 +25,7 @@ if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 		 *
 		 * ## EXAMPLES
 		 *
-		 *     wp assign-category --per-page=20
+		 *     wp assign-category update_post --per-page=20
 		 *
 		 * @when after_wp_load
 		 */
@@ -78,13 +79,31 @@ if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 				// Assign categories to all posts.
 				foreach ( $post_ids as $post_id ) {
 
+					// Log: Displaying the post ID being processed.
+					\WP_CLI::log( sprintf( 'Processing post ID: %d', $post_id ) );
+
 					wp_set_post_categories( $post_id, array( $parent_category['term_id'], $child_category['term_id'] ), false );
+
+					// Log: Displaying the category update.
+					\WP_CLI::log( sprintf( 'Category "pmc" and "rollingstone" assigned to post ID: %d', $post_id ) );
 
 					// Count images from post content and featured image.
 					$image_count = Plugin::count_images( $post_id );
 
+					// Log: Displaying the number of images found in the post.
+					\WP_CLI::log( sprintf( 'Found %d images in post ID: %d', $image_count, $post_id ) );
+
 					// Add meta with the image count.
 					update_post_meta( $post_id, '_pmc_image_counts', $image_count );
+
+					// Log: Displaying the updated post meta for images.
+					\WP_CLI::log( sprintf( 'Updated post meta "_pmc_image_counts" for post ID: %d', $post_id ) );
+
+					// Log: Adding a separator line for better readability.
+					\WP_CLI::log( str_repeat( '-', 40 ) );
+
+					// Introduce a delay of 2 seconds before processing the next post.
+					sleep( 2 );
 
 					++$count;
 				}
